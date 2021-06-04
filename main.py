@@ -25,7 +25,7 @@ api = Api(app)
 @app.route('/')
 def index():
     try:
-        Host = "localhost"
+        """Host = "localhost"
         Port = "5432"
         Dbname = "BanksData"
         User = "postgres"
@@ -53,7 +53,8 @@ def index():
         db_conn.close()
     except Exception as e:
         handle_error(e)
-    return render_template("index.html",details = details,cityList = k, details_length = len(details))
+    #return render_template("index.html",details = details,cityList = k, details_length = len(details))"""
+    return render_template("index.html")
 
 
 #==============================================================================AUTOCOMPLETE-URL================================================================================
