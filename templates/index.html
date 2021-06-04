@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset = "utf-8">
+    <meta http-equiv = "X-UA-Compatible" content = "IE-edge">
+    <meta name = "viewport" content="width = device-width", initial-scale = 1.0>
+    <title>Banks Info</title>
+    <link href="../static/styles.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<!------------------------------BODY----------------------------------------------------------------------------------------------------------------------->
+<body>
+
+    <!-------====================HEADER==================-------------------------------------------------------------------------------------------------->
+    <div class = 'header'>
+        <h>Banks Info</h>
+    </div>
+    <!------------------------HEADER END---------------------------------------->
+
+    <!------------------------CONTAINER----------------------------------------->
+    <div class="container">
+
+        <!----------DROPDOWN FOR CITY LIST-------------------------------------->
+        <div class="dropdown" >
+            <SELECT name="branch" onchange="validate()" id = "dropselect" >
+                <OPTION value=header >Select City</OPTION>
+                        {% for c in cityList %}
+	            <OPTION value={{c}} > {{c}}  </OPTION>
+
+                        {% endfor %}
+            </SELECT>
+
+        </div>
+
+        <!-------------------CITYLIST ENDS-------------------------------------->
+
+        <!-------------------SEARCH BAR----------------------------------------->
+        <form autocomplete="off" >
+            <div class="autocomplete" style="width:300px;">
+                <input id="myInput" type="text" name="myCountry" placeholder="Type here" onkeyup="searchfun()" >
+            </div>
+        </form>
+
+        <!-----------------SEARCH BAR ENDS------------------------------------->
+
+
+        <!------------------DROP-DOWN FOR ROWS--------------------------------->
+        <div class = "no-of-records" id = "no_of_records">
+           <SELECT name="records" onchange="validate()" id = "rowselect" >
+                <OPTION value=header >--Select no. of Rows--</OPTION>
+                {% for i in range(1,101) %}
+
+	           <OPTION value= {{ i }} > {{ i }}  </OPTION>
+
+                {% endfor %}
+            </SELECT>
+        </div>
+        <!------------DROP DOWN ENDS------------------------------------------>
+
+    </div>
+
+    <!------------------------CONTAINER ENDS--------------------------------->
+
+
+
+
+
+<!---------------------------TABLE TO SHOW BANKS DATA----------------------->
+<div class = "table">
+    <table style="..." id = "table">
+
+    </table>
+</div>
+<!----------------------------TABLE ENDS----------------------------------->
+
+
+<!----------------------------PREVIOUS NEXT BUTTONS------------------------------------>
+<div class = "Btn" id="buttons">
+    <button type="button" class = "a" id = "prev"  onclick="prev_page()">Prev</button>
+    <button type="button" class = "a" id = "next"  onclick="next_page()">Next</button>
+</div>
+<!-------------------------------BUTTONS ENDS------------------------------------------>
+
+
+
+<!---------------------------- JAVASCRIPT STARTS--------------------------------------->
+<script type = "text/javascript">
+
+/*-------------------------------------------------FUNCTION TO VALIDATE INPUTS TO FETCH URL DATA--------------------------------------------------*/
+function validate()
+{
+
+    if((document.getElementById('dropselect').value != "header") && (document.getElementById('rowselect').value != "header"))
+    {
+
+        api_fun(1);
+
+
+    }
+
+}
+/*----------------------------------------------------- VALIDATE FUNCTION ENDS--------------------------------------------------------------------*/
+
+var current_page = 1;
+/*-----------------------------------------HELPER FUNCTION FOR PAGINATION TO MOVE NEXT PAGE--------------------------------------------------------*/
+
+var current_page = 1;
+function next_page()
+{
+
+        current_page += 1;
+        console.log("CurrentPage is:"+ current_page);
+        api_fun(current_page);
+
+
+}
+
+/*--------------------------------------------------- NEXT PAGE FUNCTION ENDS----------------------------------------------------------------------*/
+
+/*-----------------------------------------HELPER FUNCTION FOR PAGINATION TO MOVE PREVIOUS PAGE--------------------------------------------------------*/
+function prev_page()
+{
+
+    current_page -= 1;
+    api_fun(current_page);
+
+}
+/*--------------------------------------------------- PREVIOUS PAGE FUNCTION ENDS----------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------FUNCTION TO FETCH DATA FROM APIs ---------------------------------------------------*/
+function api_fun(current_page)
+    {
+
+        var city = document.getElementById('dropselect').value;
+        var no_of_rows = document.getElementById('rowselect').value;
+        var offset = (current_page - 1) * no_of_rows;
+        var ur = "http://127.0.0.1:5000/api/branches/" + city + "/" + no_of_rows + "/" + offset ;
+
+        let url = ur
+        cache(url);// Calling cache function
+         fetch(url)
+        .then(res => res.json())
+        .then((out) => {
+
+          let Table = document.getElementById('table');//Accessing Table and below line creates Table heading
+          var tableHead = '<tr> <th>IFSC</th> <th>Bank Id</th> <th>Branch</th> <th>Address</th> <th>City</th> <th>District</th> <th>State</th> <th>Bank Name</th> </tr>'
+
+
+          var result = (JSON.parse(JSON.stringify(out)))//Parsing JSON output into String
+
+          if(Object.values(result).length < no_of_rows)//Checking for further rows exist or not to hide nextpage button
+          {
+                document.getElementById('next').style.visibility = "hidden";
+          }
+
+
+          if(Object.values(result).length>0)//Checking for rows exist or not to build table
+         {
+
+          var table = document.getElementById('table');
+          table.innerHTML="";    //Clearing the previous output(Table) to show current output after selecting next page
+          var rowHeading = table.insertRow(0);  //Inserting Heading into the Table
+          rowHeading.innerHTML = tableHead;
+          var row = 1;
+              result && Object.values(result).map(branchDetails => { //data fetched from url stored into result we will use that to show data
+              var rowData = table.insertRow(row);
+                row++;
+                var col = 0;
+                    branchDetails && Object.values(branchDetails).map(detail => {  //Storing each row into columns of table
+                        var cell1 = rowData.insertCell(col);                       // Inserting empty columns into table
+                        cell1.innerHTML = detail;                                   //Inserting data into columns
+                        col++;
+                    })
+               })
+
+            table.style.display = "block";
+            document.getElementById('prev').style.visibility = "visible";           //Showing prev page button
+            document.getElementById('next').style.visibility = "visible";           //Showing next Page button
+
+
+            // Checking if it is first page,if so we will hide prev button
+            if(current_page == 1)
+            {
+                document.getElementById('prev').style.visibility = "hidden";
+            }
+
+            if(Object.values(result).length < no_of_rows)
+          {
+                document.getElementById('next').style.visibility = "hidden";
+          }
+
+
+         }
+        else  //If No banks exist in particula city then shows popup here
+            {
+             document.getElementById('table').innerHTML="";
+             document.getElementById('prev').style.visibility = "hidden";
+             document.getElementById('next').style.visibility =  "hidden";
+
+             window.alert("No Banks From This City");
+            }
+
+        })
+        .catch(err => { throw err });   // Handling error
+
+
+    }
+
+/*-----------------------------------------------------------API FUNCTION ENDS----------------------------------------------------------------------*/
+
+/*--------------------------------------------------------FUNCTION FOR CACHING URL------------------------------------------------------------------*/
+function cache(url)
+{
+    let cacheName = 'BanksInfo';
+    fetch(url).then(res =>
+    {
+      return caches.open(cacheName).then(cache =>
+      {
+        return cache.put(url, res);
+      })
+    })
+}
+/*---------------------------------------------------------------------CACHE FUNCTION  ENDS---------------------------------------------------------------*/
+
+/*----------------------------------------------------------------FUNCTION TO SEARCH IN SEARCH BAR--------------------------------------*/
+
+function searchfun()
+{
+    let filter = document.getElementById('myInput').value.toUpperCase();
+    let Table = document.getElementById('table');
+    let tr = Table.getElementsByTagName('tr');
+    let city = document.getElementById('dropselect').value;
+    for(var i = 0;i<tr.length;i++)
+    {
+        for(var j = 0;j<6;j++)
+        {
+            let td = tr[i].getElementsByTagName('td')[j];
+            if(td)
+            {
+                let textValue = td.textContent || td.innerHTML;
+                if(textValue.toUpperCase().indexOf(filter) > -1 && city.toUpperCase() == tr[i].getElementsByTagName('td')[4].innerHTML)
+                {
+                    tr[i].style.display = "";
+                    break;
+                }
+                else
+                {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+
+    }
+}
+
+/*-------------------------------------------------------------------SEARCH FUNCTION ENDS--------------------------------------------------------*/
+        </script>
+<!--------------------------------------------------------------------JAVA SCRIPT ENDS..!!-------------------------------------------------------->
+    </body>
+</html>
