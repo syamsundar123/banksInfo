@@ -8,7 +8,7 @@ from collections import OrderedDict
 import json
 import requests
 from flask import jsonify
-
+import os
 #=====================================================================DATABASE CONNECTION PURPOSE=============================================================================
 Host = "localhost"
 Port = "5432"
@@ -32,10 +32,9 @@ def index():
         User = "postgres"
         pwd = "sYam@123"
         #db_conn = psycopg2.connect(host=Host, port=Port, dbname=Dbname, user=User, password=pwd)
-        db_conn = '''postgres: // ujysnxslsapccb: 76
-        a7fdb108585830118a05cc1a0a0d79106ae0bfc145118a74c82d9dced39eb6 @ ec2 - 18 - 215 - 111 - 67.
-        compute - 1.
-        amazonaws.com: 5432 / dtqen6muhpr11'''
+        DATABASE_URL = os.environ['DATABASE_URL']
+        db_conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
         db = db_conn.cursor()
         statement = "SELECT DISTINCT city FROM bankbranches where city LIKE 'BANG%' order by city LIMIT 5 "
         db.execute(statement)
