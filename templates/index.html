@@ -137,7 +137,7 @@ function api_fun(current_page)
         var city = document.getElementById('dropselect').value;
         var no_of_rows = document.getElementById('rowselect').value;
         var offset = (current_page - 1) * no_of_rows;
-        var ur = "http://127.0.0.1:5000/api/branches/" + city + "/" + no_of_rows + "/" + offset ;
+        var ur = "https://fyle-banks-info-syam.herokuapp.com/" + city + "/" + no_of_rows + "/" + offset ;
 
         let url = ur
         //cache(url);// Calling cache function
