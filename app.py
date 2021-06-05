@@ -39,7 +39,7 @@ def index():
         db_conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
         db = db_conn.cursor()
-        statement = "SELECT DISTINCT city FROM bankbranches where city LIKE 'BANG%' order by city LIMIT 5 "
+        statement = "SELECT DISTINCT city FROM branches where city LIKE 'BANG%' order by city LIMIT 5 "
         db.execute(statement)
         cityList = db.fetchall()
         
