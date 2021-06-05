@@ -140,7 +140,7 @@ function api_fun(current_page)
         var ur = "http://127.0.0.1:5000/api/branches/" + city + "/" + no_of_rows + "/" + offset ;
 
         let url = ur
-        cache(url);// Calling cache function
+        //cache(url);// Calling cache function
          fetch(url)
         .then(res => res.json())
         .then((out) => {
