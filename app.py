@@ -25,6 +25,9 @@ api = Api(app)
 #=================================================================================BASE-URL=====================================================================================
 @app.route('/')
 def index():
+    k = []
+    l = []
+    details = []
     try:
         Host = "localhost"
         Port = "5432"
@@ -39,13 +42,13 @@ def index():
         statement = "SELECT DISTINCT city FROM bankbranches where city LIKE 'BANG%' order by city LIMIT 5 "
         db.execute(statement)
         cityList = db.fetchall()
-        k = []
+        
         for i in range(len(cityList)):
             k.append(cityList[i][0].replace("'", "", 4))
         s = "SELECT name FROM banks"
         db.execute(s)
         bankList = db.fetchall()
-        l = []
+        
         for i in range(len(bankList)):
             l.append(bankList[i][0].replace("'", "", 2))
 
@@ -71,10 +74,8 @@ def get(branch,limit,offset):
         User = "postgres"
         pwd = "sYam@123"
         # db_conn = psycopg2.connect(host=Host, port=Port, dbname=Dbname, user=User, password=pwd)
-        db_conn = '''postgres: // ujysnxslsapccb: 76
-                a7fdb108585830118a05cc1a0a0d79106ae0bfc145118a74c82d9dced39eb6 @ ec2 - 18 - 215 - 111 - 67.
-                compute - 1.
-                amazonaws.com: 5432 / dtqen6muhpr11'''
+        DATABASE_URL = os.environ['DATABASE_URL']
+        db_conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         #db = db_conn.cursor()
         with db_conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as db:
             s = f"SELECT * FROM branches WHERE city = '{branch}' ORDER BY ifsc LIMIT {limit} OFFSET {offset}"
@@ -111,10 +112,8 @@ def get_details(search_element,limit,offset):
     pwd = "sYam@123"
     try:
         # db_conn = psycopg2.connect(host=Host, port=Port, dbname=Dbname, user=User, password=pwd)
-        db_conn = '''postgres: // ujysnxslsapccb: 76
-                a7fdb108585830118a05cc1a0a0d79106ae0bfc145118a74c82d9dced39eb6 @ ec2 - 18 - 215 - 111 - 67.
-                compute - 1.
-                amazonaws.com: 5432 / dtqen6muhpr11'''
+        DATABASE_URL = os.environ['DATABASE_URL']
+        db_conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
         with db_conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as db:
             s = f'''SELECT * FROM branches as b 
