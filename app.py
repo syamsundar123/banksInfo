@@ -7,6 +7,7 @@ import psycopg2.extras
 from collections import OrderedDict
 import json
 import requests
+from flask import jsonify
 
 #=====================================================================DATABASE CONNECTION PURPOSE=============================================================================
 Host = "localhost"
