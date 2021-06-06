@@ -10,11 +10,6 @@ import requests
 from flask import jsonify
 import os
 #=====================================================================DATABASE CONNECTION PURPOSE=============================================================================
-Host = "localhost"
-Port = "5432"
-Dbname = "BanksData"
-User = "postgres"
-pwd = "sYam@123"
 
 
 
@@ -58,11 +53,7 @@ def index():
 @app.route("/api/branches/autocomplete/<string:branch>/<string:limit>/<string:offset>",methods = ['GET'])
 def get(branch,limit,offset):
     try:
-        Host = "localhost"
-        Port = "5432"
-        Dbname = "BanksData"
-        User = "postgres"
-        pwd = "sYam@123"
+        
         # db_conn = psycopg2.connect(host=Host, port=Port, dbname=Dbname, user=User, password=pwd)
         DATABASE_URL = os.environ['DATABASE_URL']
         db_conn = psycopg2.connect(DATABASE_URL, sslmode='require')
@@ -95,11 +86,7 @@ def get(branch,limit,offset):
 #==============================================================================SEARCH ALL FILEDS================================================================================
 @app.route("/api/branches/<string:search_element>/<string:limit>/<string:offset>",methods = ['GET'])
 def get_details(search_element,limit,offset):
-    Host = "localhost"
-    Port = "5432"
-    Dbname = "BanksData"
-    User = "postgres"
-    pwd = "sYam@123"
+    
     try:
         # db_conn = psycopg2.connect(host=Host, port=Port, dbname=Dbname, user=User, password=pwd)
         DATABASE_URL = os.environ['DATABASE_URL']
