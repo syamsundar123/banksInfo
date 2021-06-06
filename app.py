@@ -45,22 +45,12 @@ def index():
         
         for i in range(len(cityList)):
             k.append(cityList[i][0].replace("'", "", 4))
-        s = "SELECT name FROM banks"
-        db.execute(s)
-        bankList = db.fetchall()
-        
-        for i in range(len(bankList)):
-            l.append(bankList[i][0].replace("'", "", 2))
-
-        s = "SELECT ifsc,bank_id,branch,address,city,district,state,bank_name FROM bankbranches where city LIKE 'B%' ORDER By ifsc LIMIT 1000"
-        db.execute(s)
-        details = db.fetchall()
 
         db.close()
         db_conn.close()
     except Exception as e:
         handle_error(e)
-    return render_template("index.html",details = details,cityList = k, details_length = len(details))
+    return render_template("index.html",cityList = k)
 
 
 #==============================================================================AUTOCOMPLETE-URL================================================================================
