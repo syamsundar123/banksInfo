@@ -39,7 +39,7 @@ def index():
         db_conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
         db = db_conn.cursor()
-        statement = "SELECT DISTINCT city FROM branches where city LIKE 'MUM%' order by city LIMIT 5 "
+        statement = "SELECT DISTINCT city FROM branches where city LIKE 'N%' order by city LIMIT 5 "
         db.execute(statement)
         cityList = db.fetchall()
         
@@ -68,7 +68,7 @@ def get(branch,limit,offset):
         db_conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         #db = db_conn.cursor()
         with db_conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as db:
-            s = f"SELECT * FROM branches WHERE city = '{branch}' ORDER BY ifsc LIMIT {limit} OFFSET {offset}"
+            s = f"SELECT * FROM branches WHERE branch = '{branch}' ORDER BY ifsc LIMIT {limit} OFFSET {offset}"
             db.execute(s)
             column_names = [desc[0] for desc in db.description]
             list_users = db.fetchall()
