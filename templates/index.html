@@ -140,7 +140,7 @@ function api_fun(current_page)
         var ur = "https://fyle-banks-info-syam.herokuapp.com/api/branches/" + city + "/" + no_of_rows + "/" + offset ;
 
         let url = ur
-        //cache(url);// Calling cache function
+        cache(url);// Calling cache function
          fetch(url)
         .then(res => res.json())
         .then((out) => {
@@ -194,7 +194,7 @@ function api_fun(current_page)
 
 
          }
-        else  //If No banks exist in particula city then shows popup here
+        else  //If No banks exist in particular city then shows popup here
             {
              document.getElementById('table').innerHTML="";
              document.getElementById('prev').style.visibility = "hidden";
