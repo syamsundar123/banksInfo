@@ -31,7 +31,7 @@ def index():
         pwd = "sYam@123"
         #db_conn = psycopg2.connect(host=Host, port=Port, dbname=Dbname, user=User, password=pwd)
         DATABASE_URL = os.environ['DATABASE_URL']
-        db_conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        db_conn = psycopg2.connect("postgresql://ufcagrp6unadhiojnvgw:woVYQXbXD7FjYRuGepWt@bjpose0ycdsuzzrjsbfo-postgresql.services.clever-cloud.com:5432/bjpose0ycdsuzzrjsbfo", sslmode='require')
 
         db = db_conn.cursor()
         statement = "SELECT DISTINCT city FROM branches where city LIKE 'BANGA%' order by city LIMIT 5 "
@@ -56,7 +56,7 @@ def get(branch,limit,offset):
         
         # db_conn = psycopg2.connect(host=Host, port=Port, dbname=Dbname, user=User, password=pwd)
         DATABASE_URL = os.environ['DATABASE_URL']
-        db_conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        db_conn = psycopg2.connect("postgresql://ufcagrp6unadhiojnvgw:woVYQXbXD7FjYRuGepWt@bjpose0ycdsuzzrjsbfo-postgresql.services.clever-cloud.com:5432/bjpose0ycdsuzzrjsbfo", sslmode='require')
         #db = db_conn.cursor()
         with db_conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as db:
             s = f"SELECT * FROM branches WHERE branch = '{branch}' ORDER BY ifsc LIMIT {limit} OFFSET {offset}"
@@ -90,7 +90,7 @@ def get_details(search_element,limit,offset):
     try:
         # db_conn = psycopg2.connect(host=Host, port=Port, dbname=Dbname, user=User, password=pwd)
         DATABASE_URL = os.environ['DATABASE_URL']
-        db_conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        db_conn = psycopg2.connect("postgresql://ufcagrp6unadhiojnvgw:woVYQXbXD7FjYRuGepWt@bjpose0ycdsuzzrjsbfo-postgresql.services.clever-cloud.com:5432/bjpose0ycdsuzzrjsbfo", sslmode='require')
 
         with db_conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as db:
             s = f'''SELECT * FROM branches as b 
