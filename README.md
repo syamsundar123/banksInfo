@@ -26,6 +26,7 @@ If we want to search any bank among the obtained list,we can search in search ba
 
 If there are no banks are in the selected city,then it will show  a popup.
 
+![Screenshot (386)](https://user-images.githubusercontent.com/56387441/121140226-37def280-c857-11eb-9d86-ffd189f51f7f.png)
 
 In the data base I have used one Schema with attributes ifsc,Bank Id,Branch,	Address,	City,	District,State,Bank Name.
 
