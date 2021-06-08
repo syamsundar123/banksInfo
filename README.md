@@ -6,18 +6,23 @@ I have used PostgreSQL to store the data,which is addon in clevercloud
 
 The interface will look like this.
 
+![Screenshot (379)](https://user-images.githubusercontent.com/56387441/121138175-1250e980-c855-11eb-947a-3a8bf43f23d1.png)
+
+
+
 
 We have to select City and No.Of rows to Display.
 
-
+![Screenshot (380)](https://user-images.githubusercontent.com/56387441/121138189-15e47080-c855-11eb-894a-948695d0c6b5.png)
+![Screenshot (381)](https://user-images.githubusercontent.com/56387441/121138216-1bda5180-c855-11eb-89bd-48e6fc51cf35.png)
 After selecting these,Available banks will display.
 
-
+![Screenshot (382)](https://user-images.githubusercontent.com/56387441/121138227-1da41500-c855-11eb-9d24-3792777b0292.png)
 
 If we want to search any bank among the obtained list,we can search in search bar.
 
 
-
+![Screenshot (383)](https://user-images.githubusercontent.com/56387441/121138255-21379c00-c855-11eb-945b-56921d6dcfdc.png)
 
 If there are no banks are in the selected city,then it will show  a popup.
 
