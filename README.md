@@ -1,4 +1,4 @@
-# anksInfo
+# BanksInfo
 Fyle Project
 In this web App,Information of Banks from different cities all over the India will be given.
 
